@@ -2,8 +2,8 @@
 
 This is a personal portfolio website designed to look and feel like a Visual Studio Code editor. It's built with vanilla HTML, CSS, and JavaScript to be lightweight, fast, and fully customizable.
 
-![Portfolio Screenshot](<img width="1470" alt="image" src="https://github.com/user-attachments/assets/12937856-60c9-4ec5-964d-e180e4f148ab" />
-) <!-- It's a good idea to add a screenshot of your portfolio here -->
+<img width="1470" alt="image" src="https://github.com/user-attachments/assets/12937856-60c9-4ec5-964d-e180e4f148ab" />
+
 
 ## Features
 
