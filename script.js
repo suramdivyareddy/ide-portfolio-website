@@ -5,6 +5,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // --- DOM Element References ---
     const fileList = document.getElementById('file-list');
+    const folderToggle = document.getElementById('folder-toggle');
     const tabsContainer = document.getElementById('tabs-container');
     const editorContainer = document.getElementById('editor-container');
     const sidebarContainer = document.getElementById('sidebar-container');
@@ -14,27 +15,121 @@ document.addEventListener('DOMContentLoaded', function () {
     const terminalOutput = document.getElementById('terminal-output');
     const sidebarResizeHandle = document.getElementById('sidebar-resize-handle');
     const terminalResizeHandle = document.getElementById('terminal-resize-handle');
+    const themeToggle = document.getElementById('theme-toggle');
     
     // --- Data ---
+    // Using template literals for cleaner HTML content
     const fileContents = {
         'home.md': { 
             icon: 'fab fa-markdown', 
             color: '#61afef', 
-            content: `<span class="token-selector"># Hi, I'm Divya Reddy Suram.</span>\n<span class="token-keyword">## Welcome to my portfolio.</span>\n\nI'm a software engineer with over 2 years of professional experience building mobile and web applications.` 
+            content: `<span class="token-selector"># Hi, I'm Divya Reddy Suram.</span>
+<span class="token-keyword">## Welcome to my portfolio.</span>
+
+I'm a software engineer with over 2 years of professional experience building mobile and web applications.` 
         },
-        'projects.ts': { icon: 'fas fa-microchip', color: '#c678dd', content: `<span class="token-comment">// Fetching featured projects from GitHub...</span>` },
+        'projects.ts': { 
+            icon: 'fas fa-microchip', 
+            color: '#c678dd', 
+            content: `<span class="token-comment">// Fetching featured projects from GitHub...</span>` 
+        },
         'experience.jsx': { 
             icon: 'fab fa-react', 
             color: '#61dafb', 
-            content: `\n<span class="token-comment">// A summary of my professional journey.</span>\n\n<span class="token-keyword">const</span> <span class="token-function">MyExperience</span> <span class="token-operator">=</span> <span class="token-punctuation">(</span><span class="token-punctuation">)</span> <span class="token-operator">=></span> <span class="token-punctuation">{</span>\n  <span class="token-keyword">return</span> <span class="token-punctuation">(</span>\n    <span class="token-tag">&lt;div&gt;</span>\n      <span class="token-tag">&lt;Job\n        <span class="token-attribute">title</span><span class="token-operator">=</span><span class="token-value">\"Software Engineer\"</span>\n        <span class="token-attribute">company</span><span class="token-operator">=</span><span class="token-value">\"CardiacFitt\"</span>\n        <span class="token-attribute">tasks</span><span class="token-operator">=</span><span class="token-punctuation">{[</span>\n          <span class="token-string">\"Engineered HIPAA-compliant React Native app, reducing security risks by 40%.\"</span>,\n          <span class="token-string">\"Migrated WordPress site to Vue.js, increasing performance and user retention by 25%.\"</span>\n        <span class="token-punctuation">]}</span>\n      /&gt;</span>\n      <span class="token-tag">&lt;Job\n        <span class="token-attribute">title</span><span class="token-operator">=</span><span class="token-value">\"Software Engineer\"</span>\n        <span class="token-attribute">company</span><span class="token-operator">=</span><span class="token-value">\"Tiger Analytics\"</span>\n        <span class="token-attribute">tasks</span><span class="token-operator">=</span><span class="token-punctuation">{[</span>\n          <span class="token-string">'Integrated 20+ APIs (REST & GraphQL), cutting load times by 30%.'</span>,\n          <span class="token-string">'Architected 50+ reusable React components, ensuring WCAG accessibility.'</span>,\n          <span class="token-string">'Optimized MongoDB schema and added Redis caching, reducing DB latency by 35%.'</span>\n        <span class="token-punctuation">]}</span>\n      /&gt;</span>\n      <span class="token-tag">&lt;Job\n        <span class="token-attribute">title</span><span class="token-operator">=</span><span class="token-value">\"Software Engineer Intern\"</span>\n        <span class="token-attribute">company</span><span class="token-operator">=</span><span class="token-value">\"Tiger Analytics\"</span>\n        <span class="token-attribute">tasks</span><span class="token-operator">=</span><span class="token-punctuation">{[</span>\n          <span class="token-string">'Automated frontend testing with Jest, increasing test coverage to 80%.'</span>,\n          <span class="token-string">'Refactored legacy JS components to TypeScript, enhancing maintainability.'</span>\n        <span class="token-punctuation">]}</span>\n      /&gt;</span>\n      <span class="token-tag">&lt;Job\n        <span class="token-attribute">title</span><span class="token-operator">=</span><span class="token-value">\"Software Intern\"</span>\n        <span class="token-attribute">company</span><span class="token-operator">=</span><span class="token-value">\"Virtusa\"</span>\n        <span class="token-attribute">tasks</span><span class="token-operator">=</span><span class="token-punctuation">{[</span>\n          <span class="token-string">'Developed reusable UI components in React adhering to design system guidelines.'</span>,\n          <span class="token-string">'Containerized local development with Docker, reducing setup time by 60%.'</span>\n        <span class="token-punctuation">]}</span>\n      /&gt;</span>\n    <span class="token-tag">&lt;/div&gt;</span>\n  <span class="token-punctuation">)</span>\n<span class="token-punctuation">}</span><span class="token-punctuation">;</span>\n` 
+            content: `
+<span class="token-comment">// A summary of my professional journey.</span>
+
+<span class="token-keyword">const</span> <span class="token-function">MyExperience</span> <span class="token-operator">=</span> <span class="token-punctuation">()</span> <span class="token-operator">=></span> <span class="token-punctuation">{</span>
+  <span class="token-keyword">return</span> <span class="token-punctuation">(</span>
+    <span class="token-tag">&lt;div&gt;</span>
+      <span class="token-tag">&lt;Job
+        <span class="token-attribute">title</span><span class="token-operator">=</span><span class="token-value">"Software Engineer"</span>
+        <span class="token-attribute">company</span><span class="token-operator">=</span><span class="token-value">"CardiacFitt"</span>
+        <span class="token-attribute">tasks</span><span class="token-operator">=</span><span class="token-punctuation">{[</span>
+          <span class="token-string">"Engineered HIPAA-compliant React Native app, reducing security risks by 40%."</span>,
+          <span class="token-string">"Migrated WordPress site to Vue.js, increasing performance and user retention by 25%."</span>
+        <span class="token-punctuation">]}</span>
+      /&gt;</span>
+      <span class="token-tag">&lt;Job
+        <span class="token-attribute">title</span><span class="token-operator">=</span><span class="token-value">"Software Engineer"</span>
+        <span class="token-attribute">company</span><span class="token-operator">=</span><span class="token-value">"Tiger Analytics"</span>
+        <span class="token-attribute">tasks</span><span class="token-operator">=</span><span class="token-punctuation">{[</span>
+          <span class="token-string">'Integrated 20+ APIs (REST & GraphQL), cutting load times by 30%.'</span>,
+          <span class="token-string">'Architected 50+ reusable React components, ensuring WCAG accessibility.'</span>,
+          <span class="token-string">'Optimized MongoDB schema and added Redis caching, reducing DB latency by 35%.'</span>
+        <span class="token-punctuation">]}</span>
+      /&gt;</span>
+      <span class="token-tag">&lt;Job
+        <span class="token-attribute">title</span><span class="token-operator">=</span><span class="token-value">"Software Engineer Intern"</span>
+        <span class="token-attribute">company</span><span class="token-operator">=</span><span class="token-value">"Tiger Analytics"</span>
+        <span class="token-attribute">tasks</span><span class="token-operator">=</span><span class="token-punctuation">{[</span>
+          <span class="token-string">'Automated frontend testing with Jest, increasing test coverage to 80%.'</span>,
+          <span class="token-string">'Refactored legacy JS components to TypeScript, enhancing maintainability.'</span>
+        <span class="token-punctuation">]}</span>
+      /&gt;</span>
+      <span class="token-tag">&lt;Job
+        <span class="token-attribute">title</span><span class="token-operator">=</span><span class="token-value">"Software Intern"</span>
+        <span class="token-attribute">company</span><span class="token-operator">=</span><span class="token-value">"Virtusa"</span>
+        <span class="token-attribute">tasks</span><span class="token-operator">=</span><span class="token-punctuation">{[</span>
+          <span class="token-string">'Developed reusable UI components in React adhering to design system guidelines.'</span>,
+          <span class="token-string">'Containerized local development with Docker, reducing setup time by 60%.'</span>
+        <span class="token-punctuation">]}</span>
+      /&gt;</span>
+    <span class="token-tag">&lt;/div&gt;</span>
+  <span class="token-punctuation">)</span>
+<span class="token-punctuation">}</span><span class="token-punctuation">;</span>` 
         },
         'skills.ts': { 
             icon: 'fas fa-code', 
             color: '#e5c07b', 
-            content: `\n<span class="token-keyword">type</span> <span class="token-type">TechnicalSkills</span> <span class="token-operator">=</span> <span class="token-punctuation">{</span>\n  <span class="token-property">languagesAndTools</span><span class="token-punctuation">:</span> <span class="token-type">string</span><span class="token-punctuation">[]</span><span class="token-punctuation">;</span>\n  <span class="token-property">frameworksAndLibraries</span><span class="token-punctuation">:</span> <span class="token-type">string</span><span class="token-punctuation">[]</span><span class="token-punctuation">;</span>\n  <span class="token-property">devopsAndCloud</span><span class="token-punctuation">:</span> <span class="token-type">string</span><span class="token-punctuation">[]</span><span class="token-punctuation">;</span>\n<span class="token-punctuation">}</span><span class="token-punctuation">;</span>\n\n<span class="token-comment">// My core competencies</span>\n<span class="token-keyword">const</span> <span class="token-variable">skillSet</span><span class="token-punctuation">:</span> <span class="token-type">TechnicalSkills</span> <span class="token-operator">=</span> <span class="token-punctuation">{</span>\n  <span class="token-property">languagesAndTools</span><span class="token-punctuation">:</span> <span class="token-punctuation">[</span><span class="token-string">'TypeScript'</span><span class="token-punctuation">,</span> <span class="token-string">'JavaScript'</span><span class="token-punctuation">,</span> <span class="token-string">'Python'</span><span class="token-punctuation">,</span>  <span class="token-string">'C#'</span><span class="token-punctuation">,</span> <span class="token-string">'.NET'</span><span class="token-punctuation">,</span><span class="token-string">'SQL'</span><span class="token-punctuation">,</span> <span class="token-string">'Git'</span><span class="token-punctuation">]</span><span class="token-punctuation">,</span>\n  <span class="token-property">frameworksAndLibraries</span><span class="token-punctuation">:</span> <span class="token-punctuation">[</span>\n    <span class="token-string">'React'</span><span class="token-punctuation">,</span> <span class="token-string">'React Native'</span><span class="token-punctuation">,</span> <span class="token-string">'Node.js'</span><span class="token-punctuation">,</span> <span class="token-string">'Next.js'</span><span class="token-punctuation">,</span> \n    <span class="token-string">'Redux'</span><span class="token-punctuation">,</span> <span class="token-string">'GraphQL'</span><span class="token-punctuation">,</span> <span class="token-string">'Express.js'</span><span class="token-punctuation">,</span> <span class="token-string">'Jest'</span>\n  <span class="token-punctuation">]</span><span class="token-punctuation">,</span>\n  <span class="token-property">devopsAndCloud</span><span class="token-punctuation">:</span> <span class="token-punctuation">[</span><span class="token-string">'CI/CD'</span><span class="token-punctuation">,</span> <span class="token-string">'Docker'</span><span class="token-punctuation">,</span> <span class="token-string">'Kubernetes'</span><span class="token-punctuation">,</span> <span class="token-string">'Azure'</span><span class="token-punctuation">,</span> <span class="token-string">'AWS'</span><span class="token-punctuation">]</span><span class="token-punctuation">,</span>\n<span class="token-punctuation">}</span><span class="token-punctuation">;</span>\n` 
+            content: `
+<span class="token-keyword">type</span> <span class="token-type">TechnicalSkills</span> <span class="token-operator">=</span> <span class="token-punctuation">{</span>
+  <span class="token-property">languagesAndTools</span><span class="token-punctuation">:</span> <span class="token-type">string</span><span class="token-punctuation">[]</span><span class="token-punctuation">;</span>
+  <span class="token-property">frameworksAndLibraries</span><span class="token-punctuation">:</span> <span class="token-type">string</span><span class="token-punctuation">[]</span><span class="token-punctuation">;</span>
+  <span class="token-property">devopsAndCloud</span><span class="token-punctuation">:</span> <span class="token-type">string</span><span class="token-punctuation">[]</span><span class="token-punctuation">;</span>
+<span class="token-punctuation">}</span><span class="token-punctuation">;</span>
+
+<span class="token-comment">// My core competencies</span>
+<span class="token-keyword">const</span> <span class="token-variable">skillSet</span><span class="token-punctuation">:</span> <span class="token-type">TechnicalSkills</span> <span class="token-operator">=</span> <span class="token-punctuation">{</span>
+  <span class="token-property">languagesAndTools</span><span class="token-punctuation">:</span> <span class="token-punctuation">[</span><span class="token-string">'TypeScript'</span><span class="token-punctuation">,</span> <span class="token-string">'JavaScript'</span><span class="token-punctuation">,</span> <span class="token-string">'Python'</span><span class="token-punctuation">,</span>  <span class="token-string">'C#'</span><span class="token-punctuation">,</span> <span class="token-string">'.NET'</span><span class="token-punctuation">,</span><span class="token-string">'SQL'</span><span class="token-punctuation">,</span> <span class="token-string">'Git'</span><span class="token-punctuation">]</span><span class="token-punctuation">,</span>
+  <span class="token-property">frameworksAndLibraries</span><span class="token-punctuation">:</span> <span class="token-punctuation">[</span>
+    <span class="token-string">'React'</span><span class="token-punctuation">,</span> <span class="token-string">'React Native'</span><span class="token-punctuation">,</span> <span class="token-string">'Node.js'</span><span class="token-punctuation">,</span> <span class="token-string">'Next.js'</span><span class="token-punctuation">,</span> 
+    <span class="token-string">'Redux'</span><span class="token-punctuation">,</span> <span class="token-string">'GraphQL'</span><span class="token-punctuation">,</span> <span class="token-string">'Express.js'</span><span class="token-punctuation">,</span> <span class="token-string">'Jest'</span>
+  <span class="token-punctuation">]</span><span class="token-punctuation">,</span>
+  <span class="token-property">devopsAndCloud</span><span class="token-punctuation">:</span> <span class="token-punctuation">[</span><span class="token-string">'CI/CD'</span><span class="token-punctuation">,</span> <span class="token-string">'Docker'</span><span class="token-punctuation">,</span> <span class="token-string">'Kubernetes'</span><span class="token-punctuation">,</span> <span class="token-string">'Azure'</span><span class="token-punctuation">,</span> <span class="token-string">'AWS'</span><span class="token-punctuation">]</span><span class="token-punctuation">,</span>
+<span class="token-punctuation">}</span><span class="token-punctuation">;</span>` 
         },
-        'education.json': { icon: 'fas fa-graduation-cap', color: '#98c379', content: `<span class="token-punctuation">{</span>\n  <span class="token-property">"education"</span><span class="token-punctuation">:</span> <span class="token-punctuation">[</span>\n    <span class="token-punctuation">{</span>\n      <span class="token-property">"degree"</span><span class="token-punctuation">:</span> <span class="token-string">"M.S. in Computer Science"</span><span class="token-punctuation">,</span>\n      <span class="token-property">"institution"</span><span class="token-punctuation">:</span> <span class="token-string">"University of South Florida, Tampa, FL"</span><span class="token-punctuation">,</span>\n      <span class="token-property">"graduation"</span><span class="token-punctuation">:</span> <span class="token-string">"May 2025"</span>\n    <span class="token-punctuation">}</span><span class="token-punctuation">,</span>\n    <span class="token-punctuation">{</span>\n      <span class="token-property">"degree"</span><span class="token-punctuation">:</span> <span class="token-string">"B.E. in Computer Science"</span><span class="token-punctuation">,</span>\n      <span class="token-property">"institution"</span><span class="token-punctuation">:</span> <span class="token-string">"Anna University, Chennai, India"</span><span class="token-punctuation">,</span>\n      <span class="token-property">"graduation"</span><span class="token-punctuation">:</span> <span class="token-string">"July 2021"</span>\n    <span class="token-punctuation">}</span>\n  <span class="token-punctuation">]</span>\n<span class="token-punctuation">}</span>` },
-        'contact.html': { icon: 'fab fa-html5', color: '#e06c75', content: `<span class="token-comment">&lt;!-- Let's connect! --&gt;</span>\n<span class="token-tag">&lt;section&gt;</span>\n  <span class="token-tag">&lt;h1&gt;</span>Get In Touch<span class="token-tag">&lt;/h1&gt;</span>\n  <span class="token-tag">&lt;ul&gt;</span>\n    <span class="token-tag">&lt;li&gt;</span><span class="token-tag">&lt;strong&gt;</span>Email:<span class="token-tag">&lt;/strong&gt;</span> <a href="mailto:divyareddysuram.work@gmail.com" target="_blank">divyareddysuram.work@gmail.com</a><span class="token-tag">&lt;/li&gt;</span>\n    <span class="token-tag">&lt;li&gt;</span><span class="token-tag">&lt;strong&gt;</span>LinkedIn:<span class="token-tag">&lt;/strong&gt;</span> <a href="https://linkedin.com/in/divya-reddy-suram" target="_blank">linkedin.com/in/divya-reddy-suram</a><span class="token-tag">&lt;/li&gt;</span>\n    <span class="token-tag">&lt;li&gt;</span><span class="token-tag">&lt;strong&gt;</span>GitHub:<span class="token-tag">&lt;/strong&gt;</span> <a href="https://github.com/suramdivyareddy" target="_blank">github.com/suramdivyareddy</a><span class="token-tag">&lt;/li&gt;</span>\n  <span class="token-tag">&lt;/ul&gt;</span>\n<span class="token-tag">&lt;/section&gt;</span>` }
+        'education.json': { 
+            icon: 'fas fa-graduation-cap', 
+            color: '#98c379', 
+            content: `<span class="token-punctuation">{</span>
+  <span class="token-property">"education"</span><span class="token-punctuation">:</span> <span class="token-punctuation">[</span>
+    <span class="token-punctuation">{</span>
+      <span class="token-property">"degree"</span><span class="token-punctuation">:</span> <span class="token-string">"M.S. in Computer Science"</span><span class="token-punctuation">,</span>
+      <span class="token-property">"institution"</span><span class="token-punctuation">:</span> <span class="token-string">"University of South Florida, Tampa, FL"</span><span class="token-punctuation">,</span>
+      <span class="token-property">"graduation"</span><span class="token-punctuation">:</span> <span class="token-string">"May 2025"</span>
+    <span class="token-punctuation">}</span><span class="token-punctuation">,</span>
+    <span class="token-punctuation">{</span>
+      <span class="token-property">"degree"</span><span class="token-punctuation">:</span> <span class="token-string">"B.E. in Computer Science"</span><span class="token-punctuation">,</span>
+      <span class="token-property">"institution"</span><span class="token-punctuation">:</span> <span class="token-string">"Anna University, Chennai, India"</span><span class="token-punctuation">,</span>
+      <span class="token-property">"graduation"</span><span class="token-punctuation">:</span> <span class="token-string">"July 2021"</span>
+    <span class="token-punctuation">}</span>
+  <span class="token-punctuation">]</span>
+<span class="token-punctuation">}</span>` 
+        },
+        'contact.html': { 
+            icon: 'fab fa-html5', 
+            color: '#e06c75', 
+            content: `<span class="token-comment">&lt;!-- Let's connect! --&gt;</span>
+<span class="token-tag">&lt;section&gt;</span>
+  <span class="token-tag">&lt;h1&gt;</span>Get In Touch<span class="token-tag">&lt;/h1&gt;</span>
+  <span class="token-tag">&lt;ul&gt;</span>
+    <span class="token-tag">&lt;li&gt;</span><span class="token-tag">&lt;strong&gt;</span>Email:<span class="token-tag">&lt;/strong&gt;</span> <a href="mailto:divyareddysuram.work@gmail.com" target="_blank">divyareddysuram.work@gmail.com</a><span class="token-tag">&lt;/li&gt;</span>
+    <span class="token-tag">&lt;li&gt;</span><span class="token-tag">&lt;strong&gt;</span>LinkedIn:<span class="token-tag">&lt;/strong&gt;</span> <a href="https://linkedin.com/in/divya-reddy-suram" target="_blank">linkedin.com/in/divya-reddy-suram</a><span class="token-tag">&lt;/li&gt;</span>
+    <span class="token-tag">&lt;li&gt;</span><span class="token-tag">&lt;strong&gt;</span>GitHub:<span class="token-tag">&lt;/strong&gt;</span> <a href="https://github.com/suramdivyareddy" target="_blank">github.com/suramdivyareddy</a><span class="token-tag">&lt;/li&gt;</span>
+  <span class="token-tag">&lt;/ul&gt;</span>
+<span class="token-tag">&lt;/section&gt;</span>` 
+        }
     };
     const skillsAsExtensions = [
         { name: 'React Native', publisher: 'Facebook', desc: 'Building secure, HIPAA-compliant mobile applications for healthcare.', icon: 'fab fa-react' },
@@ -133,17 +228,26 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     async function fetchGitHubProjects(pane) {
-        typeWriter(pane, `\n<span class="token-keyword">const</span> <span class="token-variable">githubUsername</span> <span class="token-operator">=</span> <span class="token-string">"${githubUsername}"</span><span class="token-punctuation">;</span>\n<span class="token-comment">// Fetching projects...</span>`, async () => {
+        typeWriter(pane, `
+<span class="token-keyword">const</span> <span class="token-variable">githubUsername</span> <span class="token-operator">=</span> <span class="token-string">"${githubUsername}"</span><span class="token-punctuation">;</span>
+<span class="token-comment">// Fetching projects...</span>`, async () => {
             try {
                 const response = await fetch(`https://api.github.com/users/${githubUsername}/repos?sort=updated&direction=desc`);
                 if (!response.ok) throw new Error(`GitHub API Error: ${response.status}`);
                 const allRepos = await response.json();
                 const featuredRepos = featuredRepoNames.map(name => allRepos.find(repo => repo.name === name)).filter(repo => repo);
-                let projectContent = `<span class="token-keyword">import</span> <span class="token-punctuation">{</span> <span class="token-type">Project</span> <span class="token-punctuation">}</span> <span class="token-keyword">from</span> <span class="token-string">'./types'</span><span class="token-punctuation">;</span>\n<span class="token-keyword">const</span> <span class="token-variable">projects</span><span class="token-punctuation">:</span> <span class="token-type">Project</span><span class="token-punctuation">[]</span> <span class="token-operator">=</span> <span class="token-punctuation">[</span>`;
+                let projectContent = `<span class="token-keyword">import</span> <span class="token-punctuation">{</span> <span class="token-type">Project</span> <span class="token-punctuation">}</span> <span class="token-keyword">from</span> <span class="token-string">'./types'</span><span class="token-punctuation">;</span>
+<span class="token-keyword">const</span> <span class="token-variable">projects</span><span class="token-punctuation">:</span> <span class="token-type">Project</span><span class="token-punctuation">[]</span> <span class="token-operator">=</span> <span class="token-punctuation">[</span>`;
                 featuredRepos.forEach(repo => {
-                    projectContent += `\n  <span class="token-punctuation">{</span>\n    <span class="token-property">title</span><span class="token-punctuation">:</span> <span class="token-string">"${repo.name}"</span><span class="token-punctuation">,</span>\n    <span class="token-property">description</span><span class="token-punctuation">:</span> <span class="token-string">"${repo.description ? repo.description.replace(/"/g, '\\"') : 'No description'}"</span><span class="token-punctuation">,</span>\n    <span class="token-property">github</span><span class="token-punctuation">:</span> <span class="token-string">"<a href=\"${repo.html_url}\" target=\"_blank\">${repo.html_url}</a>"</span><span class="token-punctuation">,</span>\n  <span class="token-punctuation">}</span><span class="token-punctuation">,</span>`;
+                    projectContent += `
+  <span class="token-punctuation">{</span>
+    <span class="token-property">title</span><span class="token-punctuation">:</span> <span class="token-string">"${repo.name}"</span><span class="token-punctuation">,</span>
+    <span class="token-property">description</span><span class="token-punctuation">:</span> <span class="token-string">"${repo.description ? repo.description.replace(/"/g, '\\"') : 'No description'}"</span><span class="token-punctuation">,</span>
+    <span class="token-property">github</span><span class="token-punctuation">:</span> <span class="token-string">"<a href="${repo.html_url}" target="_blank">${repo.html_url}</a>"</span><span class="token-punctuation">,</span>
+  <span class="token-punctuation">}</span><span class="token-punctuation">,</span>`;
                 });
-                projectContent += `\n<span class="token-punctuation">]</span><span class="token-punctuation">;</span>`;
+                projectContent += `
+<span class="token-punctuation">]</span><span class="token-punctuation">;</span>`;
                 typeWriter(pane, projectContent);
             } catch (error) {
                  typeWriter(pane, `<span class="token-comment">// Error fetching projects: ${error.message}</span>`);
@@ -185,6 +289,14 @@ document.addEventListener('DOMContentLoaded', function () {
     activityBarIcons.forEach(icon => icon.addEventListener('click', () => switchPanel(icon.dataset.panel)));
     fileList.addEventListener('click', e => { const target = e.target.closest('li'); if (target && target.dataset.file) { switchPanel('explorer'); openFile(target.dataset.file); } });
     
+    // Folder open/close animation
+    folderToggle.addEventListener('click', () => {
+        fileList.classList.toggle('open');
+        folderToggle.querySelector('i').classList.toggle('fa-chevron-down');
+        folderToggle.querySelector('i').classList.toggle('fa-chevron-right');
+    });
+
+    // Terminal command handling
     terminalInput.addEventListener('keydown', e => {
         if (e.key === 'Enter' && terminalInput.value) {
             executeCommand(terminalInput.value);
@@ -195,9 +307,29 @@ document.addEventListener('DOMContentLoaded', function () {
         } else if (e.key === 'ArrowDown') { if (historyIndex > 0) { historyIndex--; terminalInput.value = commandHistory[historyIndex]; } else { historyIndex = -1; terminalInput.value = ''; } }
     });
 
-    document.getElementById('toggle-terminal').addEventListener('click', () => { const terminal = document.getElementById('terminal-container'), handle = document.getElementById('terminal-resize-handle'), isHidden = terminal.style.display === 'none'; terminal.style.display = isHidden ? 'flex' : 'none'; handle.style.display = isHidden ? 'block' : 'none'; });
+    // Toggle Terminal
+    document.getElementById('toggle-terminal').addEventListener('click', () => { 
+        const terminal = document.getElementById('terminal-container');
+        const handle = document.getElementById('terminal-resize-handle');
+        const isHidden = terminal.style.display === 'none';
+        terminal.style.display = isHidden ? 'flex' : 'none'; 
+        handle.style.display = isHidden ? 'block' : 'none'; 
+    });
 
-    // Resizing Logic
+    // Theme switcher
+    themeToggle.addEventListener('click', () => {
+        document.body.classList.toggle('light-theme');
+        const icon = themeToggle.querySelector('i');
+        if (document.body.classList.contains('light-theme')) {
+            icon.classList.remove('fa-sun');
+            icon.classList.add('fa-moon');
+        } else {
+            icon.classList.remove('fa-moon');
+            icon.classList.add('fa-sun');
+        }
+    });
+
+    // --- Resizing Logic ---
     sidebarResizeHandle.addEventListener('mousedown', () => { isResizingSidebar = true; document.body.style.cursor = 'col-resize'; });
     terminalResizeHandle.addEventListener('mousedown', () => { isResizingTerminal = true; document.body.style.cursor = 'ns-resize'; });
     document.addEventListener('mousemove', e => {
@@ -206,8 +338,8 @@ document.addEventListener('DOMContentLoaded', function () {
     });
     document.addEventListener('mouseup', () => { isResizingSidebar = false; isResizingTerminal = false; document.body.style.cursor = 'default'; });
     
-    // Init
+    // --- Init ---
     populateSidePanels();
     openFile('home.md');
     executeCommand('help');
-}); 
+});

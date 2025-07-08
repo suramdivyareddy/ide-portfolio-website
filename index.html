@@ -4,14 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Divya Reddy Suram - Portfolio</title>
-    <!-- Using Font Awesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
     <div class="vscode-container">
-        <!-- Activity Bar -->
         <div class="activity-bar">
             <div class="icon-group">
                 <div id="explorer-icon" data-panel="explorer" class="icon active" title="Explorer"><i class="fas fa-copy"></i></div>
@@ -24,9 +22,7 @@
             </div>
         </div>
 
-        <!-- Sidebar & Panels Container -->
         <div class="sidebar-container" id="sidebar-container">
-            <!-- File Explorer Panel -->
             <div id="explorer-panel" class="panel active">
                 <div class="panel-header">Explorer</div>
                 <div class="panel-content">
@@ -34,7 +30,7 @@
                         <i class="fas fa-chevron-down"></i>
                         <span>DIVYA_REDDY_SURAM</span>
                     </div>
-                    <ul class="file-list" id="file-list">
+                    <ul class="file-list open" id="file-list">
                          <li data-file="home.md"><i class="fab fa-markdown" style="color: #61afef;"></i><span class="file-name">home.md</span></li>
                          <li data-file="projects.ts"><i class="fas fa-microchip" style="color: #c678dd;"></i><span class="file-name">projects.ts</span></li>
                          <li data-file="experience.jsx"><i class="fab fa-react" style="color: #61dafb;"></i><span class="file-name">experience.jsx</span></li>
@@ -47,7 +43,6 @@
                     </ul>
                 </div>
             </div>
-            <!-- Other Panels... -->
             <div id="git-panel" class="panel"><div class="panel-header">Source Control</div><div class="panel-content git-log"></div></div>
             <div id="debug-panel" class="panel"><div class="panel-header">Run and Debug</div><div class="panel-content" id="debug-content"></div></div>
             <div id="extensions-panel" class="panel"><div class="panel-header">Extensions</div><div class="panel-content" id="extensions-content"></div></div>
@@ -55,7 +50,6 @@
         
         <div class="resize-handle-vertical" id="sidebar-resize-handle"></div>
 
-        <!-- Main Content -->
         <div class="main-content">
             <div class="editor-area" id="editor-area">
                 <div class="tabs-container" id="tabs-container"></div>
@@ -71,7 +65,13 @@
             </div>
             <div class="status-bar">
                 <div class="status-bar-left"><span><i class="fas fa-code-branch"></i> main</span></div>
-                <div class="status-bar-right"><span>Spaces: 2</span><span>UTF-8</span><span id="toggle-terminal"><i class="fas fa-terminal"></i> Terminal</span><span><i class="far fa-bell"></i></span></div>
+                <div class="status-bar-right">
+                    <span>Spaces: 2</span>
+                    <span>UTF-8</span>
+                    <span id="theme-toggle" style="cursor: pointer;"><i class="fas fa-sun"></i> Theme</span>
+                    <span id="toggle-terminal"><i class="fas fa-terminal"></i> Terminal</span>
+                    <span><i class="far fa-bell"></i></span>
+                </div>
             </div>
         </div>
     </div>
@@ -79,4 +79,3 @@
     <script src="script.js" defer></script>
 </body>
 </html>
-
